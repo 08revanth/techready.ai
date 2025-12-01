@@ -1,36 +1,96 @@
+# 🚀 techReady.ai
 
-# techReady.ai - Interview preparation application with speech recognition
+**The Future of Interview Preparation**
 
-Overview
+techReady.ai is an advanced AI-powered mock interview platform designed to help students and professionals master technical interviews. It features real-time AI feedback, proctoring, performance analytics, and a futuristic glassmorphism UI.
 
-techReady.ai is a comprehensive platform designed to streamline the interview process by providing automated evaluation and personalized feedback for candidates. The system incorporates speech recognition technology, backend API development using Django REST Framework, MySQL database management, and integration with the Gemini API for personalized reports.
+---
 
-Features
+## 🎥 Project Demo
 
-* Beautiful and Sleek Frontend Design with React: The frontend of the system is built using React.js, providing an intuitive and user-friendly interface for candidates
-* Backend with Django REST Framework: The backend of the system is developed using Django REST Framework, a powerful toolkit for building Web APIs in Python. It handles authentication, data processing, and integration with external APIs.
-* MySQL as Database: MySQL is used as the database management system for storing candidate information, interview data, and evaluation results. It offers robust data storage and retrieval capabilities.
-* Speech Recognition Model: The system incorporates speech recognition technology to transcribe and analyze the words spoken by candidates during interviews. This allows for automated evaluation of communication skills and content comprehension.
-* Gemini API Integration: The system integrates with the Gemini API to generate personalized reports for candidates based on their interview performance. The reports include ratings, feedback, strengths, and areas for improvement, providing valuable insights for candidates to enhance their skills.
-Getting Started
-* Using ThreadPoolExecutor,achieved a 500% performance improvement in the API by parallelizing task execution.
-To run the Interview Evaluation System locally, follow these steps:
+**Click the button below to watch the full project walkthrough:**
 
-Clone the repository to your local machine.
-Set up the frontend and backend environments by following the instructions in their respective README files.
-Configure the MySQL database and update the database settings in the Django settings file.
-Obtain API keys for the Gemini API and configure the integration in the backend code.
-Install any necessary dependencies and libraries using npm or pip.
-Run the frontend and backend servers.
-Access the system through the provided URLs and start using the application.
+[![Watch the Demo](https://img.shields.io/badge/▶_Watch_Demo_Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://drive.google.com/file/d/1ZO75BbGNtxWkZYYnKMGaYEK_6ueWxMbH/view?usp=sharing)
 
-# Technologies Used
+---
 
-* React.js
-* Python - for speech recognition
-* Mongo - DB
-* Gemini API
+## ✨ Key Features
 
+### 🤖 AI Mock Interviews
+- **Domain Selection:** Choose from DBMS, OS, Networks, DSA, Web Dev, and OOP.
+- **Voice & Video:** Real-time question-answer interaction using Speech-to-Text and Text-to-Speech.
+- **AI Feedback:** Instant grading on answer quality, keywords, and confidence via Gemini AI.
 
+### 👁️ Intelligent Proctoring
+- **Face Detection:** Uses MediaPipe to ensure the candidate is looking at the screen.
+- **Tab Switching Detection:** Logs warnings if the user switches tabs or loses focus.
+- **Environment Monitoring:** Detects multiple faces or absence of the candidate.
 
+### 📊 Analytics & Reports
+- **Performance Dashboard:** Visual charts (Recharts) showing progress over time.
+- **Detailed Logs:** Review past interviews with AI scoring.
+- **PDF Reports:** Generate and download detailed performance reports instantly.
 
+### 🎨 Modern UI/UX
+- **Glassmorphism Design:** Sleek, dark-mode aesthetic with neon accents.
+- **Responsive:** Fully optimized for desktop and tablet experiences.
+- **Interactive:** Smooth animations using Framer Motion.
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **React.js (Vite):** Core framework.
+- **MediaPipe:** For face tracking and proctoring.
+- **Recharts:** For data visualization.
+- **Framer Motion:** For animations.
+- **jsPDF:** For generating downloadable reports.
+- **CSS3:** Custom Glassmorphism variables.
+
+### Backend
+- **Django (Python):** REST API and business logic.
+- **Django Rest Framework (DRF):** API serialization.
+- **Gemini AI API:** Generative AI for grading and questions.
+- **SQLite:** Database.
+
+---
+
+## 🚀 Installation & Setup
+
+### Prerequisites
+- Node.js & npm
+- Python 3.8+
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/08revanth/techready.ai.git
+cd techready.ai
+2. Frontend Setup
+code
+Bash
+cd frontend
+npm install
+npm run dev
+The frontend will run on http://localhost:5173
+3. Backend Setup
+Open a new terminal:
+code
+Bash
+cd backend
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+The backend will run on http://127.0.0.1:8000
+🤝 Contribution
+Contributions are welcome! Please fork the repository and submit a Pull Request.
+Fork the Project
+Create your Feature Branch (git checkout -b feature/AmazingFeature)
+Commit your Changes (git commit -m 'Add some AmazingFeature')
+Push to the Branch (git push origin feature/AmazingFeature)
+Open a Pull Request
+📄 License
+Distributed under the MIT License.
+<p align="center">
+Built with ❤️ by the techReady Team
+</p>
