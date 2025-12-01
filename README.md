@@ -52,7 +52,7 @@ techReady.ai is an advanced AI-powered mock interview platform designed to help 
 - **Python:** REST API and business logic.
 - **Django Rest Framework (DRF):** API serialization.
 - **Gemini AI API:** Generative AI for grading and questions.
-- **SQLite:** Database.
+- **MongoDB:** Database.
 
 ---
 
