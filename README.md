@@ -63,9 +63,11 @@ techReady.ai is an advanced AI-powered mock interview platform designed to help 
 - Python 3.8+
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/08revanth/techready.ai.git
 cd techready.ai
+
 2. Frontend Setup
 code
 Bash
@@ -82,15 +84,17 @@ pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
 The backend will run on http://127.0.0.1:8000
-🤝 Contribution
+
+
+Contribution
+
 Contributions are welcome! Please fork the repository and submit a Pull Request.
 Fork the Project
 Create your Feature Branch (git checkout -b feature/AmazingFeature)
 Commit your Changes (git commit -m 'Add some AmazingFeature')
 Push to the Branch (git push origin feature/AmazingFeature)
 Open a Pull Request
-📄 License
-Distributed under the MIT License.
-<p align="center">
+
+
 Built with ❤️ by the techReady Team
 </p>
