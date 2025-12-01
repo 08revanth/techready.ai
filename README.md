@@ -3,10 +3,6 @@
 
 Overview
 
-https://github.com/NiranjanBhat123/minor_project/assets/111105882/223dd4d3-6679-447a-aa6e-ee578c074fef
-
-
-
 techReady.ai is a comprehensive platform designed to streamline the interview process by providing automated evaluation and personalized feedback for candidates. The system incorporates speech recognition technology, backend API development using Django REST Framework, MySQL database management, and integration with the Gemini API for personalized reports.
 
 Features
@@ -32,8 +28,7 @@ Access the system through the provided URLs and start using the application.
 
 * React.js
 * Python - for speech recognition
-* Django REST Framework
-* MySQL
+* Mongo - DB
 * Gemini API
 
 

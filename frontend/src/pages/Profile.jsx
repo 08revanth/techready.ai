@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable'; // FIX: Import as a variable
 import { 
   FaUserAstronaut, 
   FaTrashAlt, 
@@ -8,7 +10,8 @@ import {
   FaHistory, 
   FaTrophy, 
   FaFilter,
-  FaBrain 
+  FaBrain,
+  FaDownload 
 } from 'react-icons/fa';
 import { 
   AreaChart, 
@@ -56,32 +59,30 @@ export default function Profile() {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+    return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   };
 
   // --- Graph Data Preparation ---
   const chartData = useMemo(() => {
     return [...profileData].reverse().map((item, index) => ({
-      name: `Q ${index + 1}`, // Changed label to "Q" for Question
+      name: `Q ${index + 1}`,
       date: formatDate(item.submit_time),
       score: item.rating,
       topic: item.genre_name
     }));
   }, [profileData]);
 
-  // --- CHANGED LOGIC HERE ---
+  // --- Stats Calculation ---
   const calculateStats = (data) => {
     if (!data.length) {
         setStats({ total: 0, avgScore: 0, topTopic: 'N/A' });
         return;
     }
     
-    // Logic: 1 Interview = 5 Questions. 
-    // We use Math.ceil so if they have done 31 questions, it counts as 7 interviews (6 full + 1 started)
+    // Logic: 1 Interview = 5 Questions
     const totalInterviews = Math.ceil(data.length / 5);
 
     const totalScore = data.reduce((acc, curr) => acc + (curr.rating || 0), 0);
-    // Average score is still based on total questions answered
     const avgScore = (totalScore / data.length).toFixed(1);
 
     const topicCounts = {};
@@ -96,6 +97,52 @@ export default function Profile() {
     });
 
     setStats({ total: totalInterviews, avgScore, topTopic });
+  };
+
+  // --- PDF GENERATION LOGIC ---
+  const downloadReport = () => {
+    if (filteredData.length === 0) {
+      toast.error("No data to download!");
+      return;
+    }
+
+    const doc = new jsPDF();
+
+    // Title
+    doc.setFontSize(18);
+    doc.text(`Performance Report: ${user?.username || 'User'}`, 14, 22);
+    
+    doc.setFontSize(11);
+    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
+    doc.text(`Total Questions Answered: ${filteredData.length}`, 14, 36);
+
+    // Table Data
+    const tableColumn = ["Date", "Topic", "Question", "Score", "AI Feedback"];
+    const tableRows = [];
+
+    filteredData.forEach(item => {
+      const rowData = [
+        formatDate(item.submit_time),
+        item.genre_name,
+        item.question,
+        `${item.rating}/10`,
+        item.feedback
+      ];
+      tableRows.push(rowData);
+    });
+
+    // FIX: Use autoTable(doc, options) instead of doc.autoTable()
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 45,
+      theme: 'grid',
+      styles: { fontSize: 8, cellPadding: 3 },
+      headStyles: { fillColor: [217, 70, 239] }, // Neon Purple
+    });
+
+    doc.save(`techReady_Report_${new Date().getTime()}.pdf`);
+    toast.success("Report downloaded successfully!");
   };
 
   const fetchProfile = async () => {
@@ -164,7 +211,6 @@ export default function Profile() {
     }
   };
 
-  // Custom Tooltip for Graph
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
@@ -256,42 +302,48 @@ export default function Profile() {
 
         {/* --- CONTROLS --- */}
         <div className="controls-bar">
-          <div className="filter-label">
-            <FaFilter /> Interview Logs
-          </div>
-          <div className="filters-group">
-            <Box className="custom-select" sx={{ minWidth: 150 }}>
-              <FormControl fullWidth size="small">
-                <InputLabel>Time</InputLabel>
-                <Select
-                  name='timeFilter'
-                  value={timeFilter}
-                  label="Time"
-                  onChange={handleFilterChange}
-                  MenuProps={{ PaperProps: { sx: { bgcolor: '#18181b', color: '#fff' } } }}
-                >
-                  <MenuItem value="latest">Latest First</MenuItem>
-                  <MenuItem value="earliest">Oldest First</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+          <div className="controls-left">
+            <div className="filter-label">
+              <FaFilter /> Interview Logs
+            </div>
+            <div className="filters-group">
+              <Box className="custom-select" sx={{ minWidth: 150 }}>
+                <FormControl fullWidth size="small">
+                  <InputLabel>Time</InputLabel>
+                  <Select
+                    name='timeFilter'
+                    value={timeFilter}
+                    label="Time"
+                    onChange={handleFilterChange}
+                    MenuProps={{ PaperProps: { sx: { bgcolor: '#18181b', color: '#fff' } } }}
+                  >
+                    <MenuItem value="latest">Latest First</MenuItem>
+                    <MenuItem value="earliest">Oldest First</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
 
-            <Box className="custom-select" sx={{ minWidth: 220 }}>
-              <FormControl fullWidth size="small">
-                <InputLabel>Topic</InputLabel>
-                <Select
-                  name='genreFilter'
-                  value={genreFilter}
-                  label="Topic"
-                  onChange={handleFilterChange}
-                  MenuProps={{ PaperProps: { sx: { bgcolor: '#18181b', color: '#fff' } } }}
-                >
-                  <MenuItem value="all">All Topics</MenuItem>
-                  {genres.map((g, i) => <MenuItem key={i} value={g}>{g}</MenuItem>)}
-                </Select>
-              </FormControl>
-            </Box>
+              <Box className="custom-select" sx={{ minWidth: 220 }}>
+                <FormControl fullWidth size="small">
+                  <InputLabel>Topic</InputLabel>
+                  <Select
+                    name='genreFilter'
+                    value={genreFilter}
+                    label="Topic"
+                    onChange={handleFilterChange}
+                    MenuProps={{ PaperProps: { sx: { bgcolor: '#18181b', color: '#fff' } } }}
+                  >
+                    <MenuItem value="all">All Topics</MenuItem>
+                    {genres.map((g, i) => <MenuItem key={i} value={g}>{g}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              </Box>
+            </div>
           </div>
+
+          <button className="download-btn" onClick={downloadReport}>
+            <FaDownload /> Download Report
+          </button>
         </div>
 
         {/* --- REPORTS GRID --- */}
